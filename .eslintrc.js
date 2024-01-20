@@ -3,10 +3,11 @@ module.exports = {
         browser: true,
         node: true,
         es6: true,
-        jest: true
+        jest: true,
+        "cypress/globals": true
     },
     extends: ['eslint:recommended', 'plugin:react/recommended'],
-    plugins: ['react'],
+    plugins: ['react', "jest", "cypress"],
     globals: {
       Atomics: "readonly",
       SharedArrayBuffer: "readonly",
@@ -25,5 +26,6 @@ module.exports = {
     rules: {
         "react/prop-types": "off"
     },
+    "ignorePatterns": ["cypress.config.js"],
   };
   
