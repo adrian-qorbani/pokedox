@@ -33,7 +33,6 @@ jobs:
         if: ${{ github.event_name == 'push' }}
         run: curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}
 
-
   tag_release:
     if: github.event.pull_request.merged == true
     needs: [simple_deployment_pipeline]
