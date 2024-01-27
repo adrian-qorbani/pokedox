@@ -7,6 +7,8 @@ on:
   pull_request:
     branches: [main]
     types: [opened, synchronize]
+  pull_request_target:
+    types: [closed]
 
 jobs:
   simple_deployment_pipeline:
@@ -34,9 +36,9 @@ jobs:
         run: curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}
 
   tag_release:
-    if: github.event.pull_request.merged == true
-    needs: [simple_deployment_pipeline]
+    if: github.event_name == 'pull_request_target' && github.event.pull_request.merged == true
     runs-on: ubuntu-20.04
+    needs: [simple_deployment_pipeline]
     permissions:
       contents: write
     steps:
