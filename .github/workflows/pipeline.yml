@@ -32,11 +32,11 @@ jobs:
         run: npm run test
 
       - name: Trigger deployment
-        if: github.event_name == 'pull_request_target' && github.event.action == 'closed' && github.event.pull_request.merged == true
+        if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ' '), '#skip') }}
         run: curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}
 
   tag_release:
-    if: github.event_name == 'pull_request_target' && github.event.pull_request.merged == true
+    if: ${{ github.event_name == 'push'  && !contains(join(github.event.commits.*.message, ' '), '#skip') }}
     runs-on: ubuntu-20.04
     needs: [simple_deployment_pipeline]
     permissions:
